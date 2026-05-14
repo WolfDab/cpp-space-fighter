@@ -140,6 +140,20 @@ void Level::Update(const GameTime& gameTime)
 	for (Explosion *pExplosion : s_explosions) pExplosion->Update(gameTime);
 
 	if (!m_pPlayerShip->IsActive()) GetGameplayScreen()->Exit();
+
+	m_backgroundOffsetY += m_backgroundScrollSpeed;
+
+	float screenHeight = (float)Game::GetScreenHeight();
+
+	if (m_backgroundOffsetY > screenHeight)
+	{
+		m_backgroundOffsetY -= screenHeight;
+	}
+
+	for (unsigned int i = 0; i < m_totalSectorCount; i++)
+	{
+		m_pSectors[i].clear();
+	}
 }
 
 
@@ -246,6 +260,13 @@ void Level::Draw(SpriteBatch& spriteBatch)
 	{
 		GameObject *pGameObject = (*m_gameObjectIt);
 		pGameObject->Draw(spriteBatch);
+	}
+
+	if (m_pBackground)
+	{
+		float screenHeight = (float)Game::GetScreenHeight();
+		spriteBatch.Draw(m_pBackground, Vector2(0, m_backgroundOffsetY), Color::WHITE * alpha);
+		spriteBatch.Draw(m_pBackground, Vector2(0, m_backgroundOffsetY - screenHeight), Color::WHITE * alpha);
 	}
 
 	spriteBatch.End();

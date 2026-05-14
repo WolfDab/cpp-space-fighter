@@ -55,6 +55,7 @@ public:
 		@param isConfined True to confine the player ship to the screen, false otherwise. */
 	virtual void ConfineToScreen(const bool isConfined = true) { m_isConfinedToScreen = isConfined; }
 
+	static PlayerShip* GetInstance() { return s_pInstance; }
 
 protected:
 
@@ -81,5 +82,7 @@ private:
 	bool m_isConfinedToScreen = false;
 
 	Texture* m_pTexture = nullptr;
+
+	static PlayerShip* s_pInstance;
 
 };

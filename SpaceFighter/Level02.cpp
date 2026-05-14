@@ -2,6 +2,7 @@
 
 #include "Level02.h"
 #include "BioEnemyShip.h"
+#include "HunterEnemyShip.h"
 
 
 void Level02::LoadContent(ResourceManager& resourceManager)
@@ -32,20 +33,39 @@ void Level02::LoadContent(ResourceManager& resourceManager)
 	float delay = 3.0; // start delay
 	Vector2 position;
 
-	for (int i = 0; i < COUNT; i++)
-	{
+		for (int i = 0; i < COUNT; i++)
+		{
 		delay += delays[i];
 		position.Set(xPositions[i] * Game::GetScreenWidth(), -pTexture->GetCenter().Y);
 
-		BioEnemyShip* pEnemy = new BioEnemyShip();
-		pEnemy->SetTexture(pTexture);
-		pEnemy->SetCurrentLevel(this);
+			BioEnemyShip* pEnemy = new BioEnemyShip();
+			pEnemy->SetTexture(pTexture);
+			pEnemy->SetCurrentLevel(this);
 		pEnemy->Initialize(position, (float)delay);
-		AddGameObject(pEnemy);
-	}
+			AddGameObject(pEnemy);
+		}
 
-	// Setup background
-	SetBackground(resourceManager.Load<Texture>("Textures\\SpaceBackground02.png"));
+	Texture* pHunterTexture = resourceManager.Load<Texture>("Textures\\BioEnemyShip.png");
+    
+    float hunterDelay = 6.0f; // Start spawning them a bit later in the level
+    
+    // Spawn 3 Hunters
+    for (int i = 0; i < 3; i++)
+    {
+        hunterDelay += 4.0f; // Stagger their spawns by 4 seconds
+        
+        // Spawn them roughly in the center
+        Vector2 hunterPosition(Game::GetScreenWidth() * 0.5f, -pHunterTexture->GetCenter().Y);
+
+        HunterEnemyShip* pHunter = new HunterEnemyShip();
+        pHunter->SetTexture(pHunterTexture);
+        pHunter->SetCurrentLevel(this);
+        pHunter->Initialize(hunterPosition, hunterDelay);
+        AddGameObject(pHunter);
+    }
+
+    // Setup background
+    SetBackground(resourceManager.Load<Texture>("Textures\\SpaceBackground02.png"));
 
 	Level::LoadContent(resourceManager);
 }

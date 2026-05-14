@@ -164,4 +164,6 @@ private:
 
 	virtual std::vector<GameObject*>* GetSectors() { return m_pSectors; }
 
+	float m_backgroundOffsetY = 0.0f; 
+	float m_backgroundScrollSpeed = 2.0f;
 };

@@ -2,8 +2,12 @@
 #include "PlayerShip.h"
 #include "Level.h"
 
+PlayerShip* PlayerShip::s_pInstance = nullptr;
+
 void PlayerShip::LoadContent(ResourceManager& resourceManager)
 {
+	s_pInstance = this;
+
 	ConfineToScreen();
 	SetResponsiveness(0.1);
 
